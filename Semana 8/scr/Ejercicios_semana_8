@@ -1,0 +1,225 @@
+#Semana 8 - Ejercicios
+
+#Ejer:  Aumente el valor de desviación estándar y evalúe cómo cambia el error estándar.
+
+pop <- ceiling(rnorm(5000, mean = 35,sd = 5))
+##Aumenta el error estándar
+
+#Ejer:  Cambie aumente el tamaño de la muestra y evalúe cómo cambia el error estándar.
+
+m1 <- sample(x = pop,size = 50, replace = T)
+m2 <- sample(x = pop,size = 50, replace = T)
+m3 <- sample(x = pop,size = 50, replace = T)
+sd(m1)/sqrt(length(m1))
+sd(m2)/sqrt(length(m2))
+sd(m3)/sqrt(length(m3))
+##El error estándar baja a 0.15
+
+boxplot(cbind(m1,m2,m3))
+
+
+#Ejer: Cambie el tamaño de muestra y evalúe el valor de error estándar. ¿Cuánto debería 
+#aumentar la muestra para que el error estándar disminuya a la mitad?
+
+m1 <- sample(x = pop,size = 17, replace = T)
+m2 <- sample(x = pop,size = 17, replace = T)
+m3 <- sample(x = pop,size = 17, replace = T)
+sd(m1)/sqrt(length(m1))
+sd(m2)/sqrt(length(m2))
+sd(m3)/sqrt(length(m3))
+sd(c(m1,m2,m3))/sqrt(length(c(m1,m2,m3)))
+#Para que disminuya a la mitad, se debe valar hasta 17, y se obtendría 0.95 de error
+#estándar.
+
+#Ejer: Lea el artículo: 
+#http://www.limnetica.com/documentos/limnetica/limnetica-9-1-p-67.pdf 
+#Simule las variables que evalúan en el estudio. Aplique los descriptivos estadísticos 
+#que hemos visto hasta el momento. Grafique. ¿Qué otras preguntas de investigación podría 
+#formular usando esos datos? Tome los diagramas de flujo de test estadísticos y de 
+#graficado. Tome una de las preguntas que formuló y diseñe el análisis.
+
+####Eje Mayor####
+##Estadío I####
+EjeMayorAI <- rnorm(n = 100, mean = 0.9, sd = 0.05)
+EjeMayorBI <- rnorm(n = 100, mean = 0.9, sd = 0.05)
+EjeMayorApobI <- sample(x = EjeMayorAI,size = 10, replace = T)
+EjeMayorBpobI <- sample(x = EjeMayorBI,size = 10, replace = T)
+
+##Estadío II####
+EjeMayorAII <- rnorm(n = 100, mean = 1, sd = 0.05)
+EjeMayorBII <- rnorm(n = 100, mean = 1, sd = 0.05)
+EjeMayorApobII <- sample(x = EjeMayorAII,size = 10, replace = T)
+EjeMayorBpobII <- sample(x = EjeMayorBII,size = 10, replace = T)
+
+##Estadío III####
+EjeMayorAIII <- rnorm(n = 100, mean = 1.5, sd = 0.05)
+EjeMayorBIII <- rnorm(n = 100, mean = 1.5, sd = 0.05)
+EjeMayorApobIII <- sample(x = EjeMayorAIII,size = 10, replace = T)
+EjeMayorBpobIII <- sample(x = EjeMayorBIII,size = 10, replace = T)
+
+##Estadío IV####
+EjeMayorAIV <- rnorm(n = 100, mean = 1.75, sd = 0.05)
+EjeMayorBIV <- rnorm(n = 100, mean = 1.75, sd = 0.05)
+EjeMayorApobIV <- sample(x = EjeMayorAIV,size = 10, replace = T)
+EjeMayorBpobIV <- sample(x = EjeMayorBIV,size = 10, replace = T)
+
+##Estadío Va,b####
+EjeMayorAVab <- rnorm(n = 100, mean = 1.8, sd = 0.05)
+EjeMayorBVab <- rnorm(n = 100, mean = 1.8, sd = 0.05)
+EjeMayorApobVab <- sample(x = EjeMayorAVab,size = 10, replace = T)
+EjeMayorBpobVab <- sample(x = EjeMayorBVab,size = 10, replace = T)
+
+##Estadío Vc####
+EjeMayorAVc <- rnorm(n = 100, mean = 2, sd = 0.05)
+EjeMayorBVc <- rnorm(n = 100, mean = 2, sd = 0.05)
+EjeMayorApobVc <- sample(x = EjeMayorAVc,size = 10, replace = T)
+EjeMayorBpobVc <- sample(x = EjeMayorBVc,size = 10, replace = T)
+
+boxplot(cbind(EjeMayorApobI, EjeMayorApobII, EjeMayorApobIII, EjeMayorApobIV,
+              EjeMayorApobVab, EjeMayorApobVc))
+
+boxplot(cbind(EjeMayorBpobI, EjeMayorBpobII, EjeMayorBpobIII, EjeMayorBpobIV,
+              EjeMayorBpobVab, EjeMayorBpobVc))
+
+sd(c(EjeMayorApobI, EjeMayorApobII, EjeMayorApobIII, EjeMayorApobIV,
+     EjeMayorApobVab, EjeMayorApobVc))/sqrt(
+       length(c(EjeMayorApobI, EjeMayorApobII, EjeMayorApobIII, EjeMayorApobIV,
+                EjeMayorApobVab, EjeMayorApobVc)))
+#[1] 0.00651469 El error estándar es de 0.0065
+
+sd(c(EjeMayorBpobI, EjeMayorBpobII, EjeMayorBpobIII, EjeMayorBpobIV,
+     EjeMayorBpobVab, EjeMayorBpobVc))/sqrt(
+       length(c(EjeMayorBpobI, EjeMayorBpobII, EjeMayorBpobIII, EjeMayorBpobIV,
+                EjeMayorBpobVab, EjeMayorBpobVc)))
+#[1] 0.006643121 El error estándar es de 0.0066
+
+EjeMayorAbind <- cbind(EjeMayorApobI, EjeMayorApobII, EjeMayorApobIII, EjeMayorApobIV,
+                       EjeMayorApobVab, EjeMayorApobVc)
+myhistA <- hist(EjeMayorAbind)
+multiplierA <- myhistA$counts / myhistA$density
+mydensityA <- density(EjeMayorAbind)
+mydensityA$y <- mydensityA$y * multiplier[1]
+plot(myhistA)
+lines(mydensityA)
+
+EjeMayorBbind <- cbind(EjeMayorBpobI, EjeMayorBpobII, EjeMayorBpobIII, EjeMayorBpobIV,
+                       EjeMayorBpobVab, EjeMayorBpobVc)
+myhistB <- hist(EjeMayorBbind)
+multiplierB <- myhistB$counts / myhistB$density
+mydensityB <- density(EjeMayorBbind)
+mydensityB$y <- mydensityB$y * multiplier[1]
+plot(myhistB)
+lines(mydensityB)
+
+####Eje Menor####
+##Estadío I####
+EjeMenorAI <- rnorm(n = 100, mean = 0.45, sd = 0.02)
+EjeMenorBI <- rnorm(n = 100, mean = 0.45, sd = 0.02)
+EjeMenorApobI <- sample(x = EjeMenorAI,size = 10, replace = T)
+EjeMenorBpobI <- sample(x = EjeMenorBI,size = 10, replace = T)
+
+##Estadío II####
+EjeMenorAII <- rnorm(n = 100, mean = 0.5, sd = 0.02)
+EjeMenorBII <- rnorm(n = 100, mean = 0.5, sd = 0.02)
+EjeMenorApobII <- sample(x = EjeMenorAII,size = 10, replace = T)
+EjeMenorBpobII <- sample(x = EjeMenorBII,size = 10, replace = T)
+
+##Estadío III####
+EjeMenorAIII <- rnorm(n = 100, mean = 0.55, sd = 0.02)
+EjeMenorBIII <- rnorm(n = 100, mean = 0.55, sd = 0.02)
+EjeMenorApobIII <- sample(x = EjeMenorAIII,size = 10, replace = T)
+EjeMenorBpobIII <- sample(x = EjeMenorBIII,size = 10, replace = T)
+
+##Estadío IV####
+EjeMenorAIV <- rnorm(n = 100, mean = 0.6, sd = 0.02)
+EjeMenorBIV <- rnorm(n = 100, mean = 0.6, sd = 0.02)
+EjeMenorApobIV <- sample(x = EjeMenorAIV,size = 10, replace = T)
+EjeMenorBpobIV <- sample(x = EjeMenorBIV,size = 10, replace = T)
+
+##Estadío Va,b####
+EjeMenorAVab <- rnorm(n = 100, mean = 0.65, sd = 0.02)
+EjeMenorBVab <- rnorm(n = 100, mean = 0.65, sd = 0.02)
+EjeMenorApobVab <- sample(x = EjeMenorAVab,size = 10, replace = T)
+EjeMenorBpobVab <- sample(x = EjeMenorBVab,size = 10, replace = T)
+
+##Estadío Vc####
+EjeMenorAVc <- rnorm(n = 100, mean = 0.7, sd = 0.02)
+EjeMenorBVc <- rnorm(n = 100, mean = 0.7, sd = 0.02)
+EjeMayorApobVc <- sample(x = EjeMenorAVc,size = 10, replace = T)
+EjeMenorBpobVc <- sample(x = EjeMenorBVc,size = 10, replace = T)
+
+####Volumen####
+##Estadío I####
+VolumenAI <- rnorm(n = 100, mean = 0.05, sd = 0.02)
+VolumenBI <- rnorm(n = 100, mean = 0.05, sd = 0.02)
+VolumenApobI <- sample(x = VolumenAI,size = 10, replace = T)
+VolumenBpobI <- sample(x = VolumenBI,size = 10, replace = T)
+
+##Estadío II####
+VolumenAII <- rnorm(n = 100, mean = 0.1, sd = 0.02)
+VolumenBII <- rnorm(n = 100, mean = 0.1, sd = 0.02)
+VolumenApobII <- sample(x = VolumenAII,size = 10, replace = T)
+VolumenBpobII <- sample(x = VolumenBII,size = 10, replace = T)
+
+##Estadío III####
+VolumenAIII <- rnorm(n = 100, mean = 0.15, sd = 0.02)
+VolumenBIII <- rnorm(n = 100, mean = 0.15, sd = 0.02)
+VolumenApobIII <- sample(x = VolumenAIII,size = 10, replace = T)
+VolumenBpobIII <- sample(x = VolumenBIII,size = 10, replace = T)
+
+##Estadío IV####
+VolumenAIV <- rnorm(n = 100, mean = 0.17, sd = 0.02)
+VolumenBIV <- rnorm(n = 100, mean = 0.17, sd = 0.02)
+VolumenApobIV <- sample(x = VolumenAIV,size = 10, replace = T)
+VolumenBpobIV <- sample(x = VolumenIV,size = 10, replace = T)
+
+##Estadío Va,b####
+VolumenAVab <- rnorm(n = 100, mean = 0.182, sd = 0.02)
+VolumenBVab <- rnorm(n = 100, mean = 0.182, sd = 0.02)
+VolumenApobVab <- sample(x = VolumenAVab,size = 10, replace = T)
+VolumenBpobVab <- sample(x = VolumenBVab,size = 10, replace = T)
+
+##Estadío Vc####
+VolumenAVc <- rnorm(n = 100, mean = 0.2, sd = 0.02)
+VolumenBVc <- rnorm(n = 100, mean = 0.2, sd = 0.02)
+VolumenApobVc <- sample(x = VolumenAVc,size = 10, replace = T)
+VolumenBpobVc <- sample(x = VolumenBVc,size = 10, replace = T)
+
+####Peso####
+##Estadío I####
+PesoAI <- rnorm(n = 100, mean = 0.2, sd = 0.035)
+PesoBI <- rnorm(n = 100, mean = 0.2, sd = 0.035)
+PesoApobI <- sample(x = PesoAI,size = 10, replace = T)
+PesoBpobI <- sample(x = PesoBI,size = 10, replace = T)
+
+##Estadío II####
+PesoAII <- rnorm(n = 100, mean = 0.25, sd = 0.035)
+PesoBII <- rnorm(n = 100, mean = 0.25, sd = 0.035)
+PesoApobII <- sample(x = PesoAII,size = 10, replace = T)
+PesoBpobII <- sample(x = PesoBII,size = 10, replace = T)
+
+##Estadío III####
+PesoAIII <- rnorm(n = 100, mean = 0.3, sd = 0.035)
+PesoBIII <- rnorm(n = 100, mean = 0.3, sd = 0.035)
+PesoApobIII <- sample(x = PesoAIII,size = 10, replace = T)
+PesoBpobIII <- sample(x = PesoBIII,size = 10, replace = T)
+
+##Estadío IV####
+PesoAIV <- rnorm(n = 100, mean = 0.37, sd = 0.035)
+PesoBIV <- rnorm(n = 100, mean = 0.37, sd = 0.035)
+PesoApobIV <- sample(x = PesoAIV,size = 10, replace = T)
+PesoBpobIV <- sample(x = PesoIV,size = 10, replace = T)
+
+##Estadío Va,b####
+PesoAVab <- rnorm(n = 100, mean = 0.4, sd = 0.035)
+PesoBVab <- rnorm(n = 100, mean = 0.4, sd = 0.035)
+PesoApobVab <- sample(x = PesoAVab,size = 10, replace = T)
+PesoBpobVab <- sample(x = PesoBVab,size = 10, replace = T)
+
+##Estadío Vc####
+PesoAVc <- rnorm(n = 100, mean = 0.43, sd = 0.035)
+PesoBVc <- rnorm(n = 100, mean = 0.43, sd = 0.035)
+PesoApobVc <- sample(x = PesoAVc,size = 10, replace = T)
+PesoBpobVc <- sample(x = PesoBVc,size = 10, replace = T)
+
+##¿Cuál es la relación de cada estadío respecto a la Temperatura?#######
