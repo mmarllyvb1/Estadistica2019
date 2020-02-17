@@ -1,0 +1,48 @@
+#Semana 7
+
+#Ejer: Tome cualquiera de las dos poblaciones y cambie los valores de tamaño y número 
+#de muestras hasta que obtenga un histograma similar a una distribución normal.
+
+for (i in 1:Nmuestras){
+  muestra <- rnorm(taman.muestra,mean=15,sd = 1)  #distribuciÃ³n normal media 15, sd 1.
+  Matriz.Muestras.pob2.sinMean [i,]=muestra}
+
+for (i in 1:Nmuestras){
+  muestra <- rlnorm(taman.muestra,meanlog=11,sdlog = 1)  #distribuciÃ³n lognormal media 11, sdlog 1.
+  Matriz.Muestras.pob2.sinMean [i,]=muestra}
+
+Matriz.Muestras.pob2.sinMean
+meansX <- apply(Matriz.Muestras.pob2.sinMean, 1, mean)
+Matriz.Muestras.pob2.conMean <- cbind(Matriz.Muestras.pob2.sinMean,meansX)
+Matriz.Muestras.pob2.conMean
+
+par(mfrow=c(2,2))
+hist(Matriz.Muestras.pob2.sinMean[1,], main = 'muestra 1')
+hist(Matriz.Muestras.pob2.sinMean[2,], main = 'muestra 2')
+hist(Matriz.Muestras.pob2.sinMean[3,], main = 'muestra 3')
+hist(Matriz.Muestras.pob2.conMean[,taman.muestra+1], main = 'medias')
+
+#Ejer:  Simule una población con distribución normal de media 15 y sd 1. ¿Cúal es el 
+#tamaño y numero de muestral,  donde obtenemos una distribución similar a la normal? 
+#Pruebe con Nmuestras 30 y tamaño 5 o 3, también podría reducir la SD. Haga lo mismo 
+#con una distribución lognormal.
+simula<-abs(rnorm(1000,15,1))
+simula2<-abs(rnorm(30,15,1))
+for (i in 1:Nmuestras){
+  muestra <- rlnorm(5,meanlog=11,sdlog = 1)
+  Matriz.Muestras.pob2.sinMean [i,]=muestra}
+
+#Ejer: Aumente la SD= 10 y disminuya el número de individuos de la población, ejemplo 1000. 
+#¿Cuanto es el mínimo de muestras a tomar, para que la media obtenida se acerque a la media de la población?
+simulax<-abs(rnorm(1000,10,1.5))
+head(simulax)
+Xpob <- mean(simulax)
+muestreox <- c(3,5,10,15,20,25,30,50,60,100,200,700,1000)
+means<-NULL
+for(i in 1:length(muestreo)){
+  muestrax<-sample(simulax,muestreo[i],replace = F)
+  means<-c(means,mean(muestrax))}
+
+plot(cbind(muestreox,means),type = "l")
+abline(h = Xpob,col="red")
+
