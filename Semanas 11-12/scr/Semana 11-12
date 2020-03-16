@@ -101,13 +101,6 @@ bartlett.test(TMAX ~ GENDER)
 ##No se rechaza la H0
 ##normalidad.
 
-Mx<- WW[which(COUNTRY=='mx')]
-Gu<- WW[which(COUNTRY=='gu')]
-Us<- WW[which(COUNTRY=='us')]
-Ni<- WW[which(COUNTRY=='ni')]
-Su<- WW[which(COUNTRY=='su')]
-Ho<- WW[which(COUNTRY=='ho')]
-
 ggplot(tabla)+
   geom_bar(aes(x=WW, fill=COUNTRY))+
   facet_wrap(~COUNTRY)
