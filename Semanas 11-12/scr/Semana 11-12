@@ -1,0 +1,255 @@
+##Taller semana 12-13 NOrmalidad
+##"La estadÃ?stica paramÃ©trica es una rama de la estadÃ?stica inferencial que comprende 
+##los procedimientos estadÃ?sticos y de decisiÃ³n que estÃ¡n basados en distribuciones conocidas".
+##para determinar si las variables de trabajo son normales, y poder usar un test de hipotesis parametrico
+##o no, debe cumplir los supuestos; los datos esten bajo una distribucion normal, 
+##y que tenga homogenidad de varianzas. De lo contrario se transforman los valores, ajustandolos
+##a una distribucion normal, o usar estadistica no parametrica con las variables. 
+
+##instalar paquetes
+if(!require(ape)){install.packages("ape")}
+if(!require(ggplot2)){install.packages("ggplot2")}
+if(!require(ggridges)){install.packages("ggridges")}
+if(!require(plyr)){install.packages("plyr")}
+if(!require(Rmisc)){install.packages("Rmisc")}
+if(!require(dplyr)){install.packages("dplyr")}
+if(!require(biotools)){install.packages("biotools")}
+if(!require(moments)){install.packages("moments")}
+if(!require(nortest)){install.packages("nortest")}
+if(!require(rcompanion)){install.packages("rcompanion")}
+if(!require(car)){install.packages("car")}
+if(!require(HardyWeinberg)){install.packages("HardyWeinberg")}
+
+##Con la matriz "morfologia" se hace exploracion con 2 variables, de tal manera que cumpla 
+##los supuestos de normalidad; parametrica, no cumpla la normalidad y deba transformar, 
+##no cumpla los supuestos; no parametrica. cambiando los datos de ser necesario.
+
+##cargar matriz "morphological_data" 
+setwd("Marlly Valentina Mendez Blanco/Programacion en R/Clase/LABORATORIO/")
+tabla <- read.csv("Semana 12 y 13/Morphological_data.csv")
+View(tabla)
+attach(tabla)
+
+##variable TMAX por categoria genero (F, M)
+tmaxf<- TMAX[which(GENDER=='F')]
+tmaxm<- TMAX[which(GENDER=='M')]
+
+View(tmaxf)
+
+
+##Observacion visual de la distribucion normal
+library(ggplot2)
+
+ggplot(tabla)+
+  geom_bar(aes(x=TMAX, fill=GENDER))+
+  facet_wrap(~GENDER)
+
+
+##Otra tÃ©cnica grÃ¡fica para evaluar normalidad es comparar los cuantiles de la distribuciÃ³n 
+##observada con los cuantiles de la esperada. Este grÃ¡fico es comÃºnmente conocido como Q-Q
+ggplot(tabla, aes(sample = TMAX, colour = GENDER)) +
+  stat_qq() +
+  stat_qq_line()
+
+##Test de normalidad
+##evaluar coeficiente de asimetria y curtosis
+help(skewness)
+??skewness
+
+skewness(TMAX, na.rm = T)
+#[1] -0.06600668
+##distribucion aproximadamente cesgada
+
+kurtosis(TMAX,na.rm = T)
+#[1] 3.226804
+##curtosis leptocUtica >0
+
+##Contraste de hipotesis
+##H0 = Los datos provienen de una poblaciÃ³n distribuida normalmente.
+##HA = Los datos provienen de un poblaciÃ³n que no se distribuye normalmente.
+
+##test para muestras grandes.
+##No se conoce media y desviacion poblacional, usando contraparte  test de Lilliefors
+
+lillie.test(TMAX)
+#Lilliefors (Kolmogorov-Smirnov) normality test
+
+#data:  TMAX
+#D = 0.021726, p-value = 0.5934
+##no se rechaza la H0
+
+##Homogeneidad de varianzas - HOMOCEDASTICIDAD###############
+#Ho = la varianza es igual entre los grupos. 
+#HA= Existen diferencias en la varianza entre los grupos.
+ 
+ggplot(data = tabla, aes(x = GENDER, y = TMAX, colour = GENDER)) +
+  geom_boxplot() +
+  geom_point() +
+  theme_bw() +
+  theme(legend.position = "none")
+
+##Test de Bartlett
+##Especial para cuando no se tienen muestras con tamaÃ±os iguales. Es sensible a normalidad. 
+##Si lo datos cumplen con normalidad, es la mejor opciÃ³n.
+
+bartlett.test(TMAX ~ GENDER)
+#Bartlett test of homogeneity of variances
+
+#data:  TMAX by GENDER
+#Bartlett's K-squared = 0.58082, df = 1, p-value = 0.446
+
+##No se rechaza la H0
+##normalidad.
+
+Mx<- WW[which(COUNTRY=='mx')]
+Gu<- WW[which(COUNTRY=='gu')]
+Us<- WW[which(COUNTRY=='us')]
+Ni<- WW[which(COUNTRY=='ni')]
+Su<- WW[which(COUNTRY=='su')]
+Ho<- WW[which(COUNTRY=='ho')]
+
+ggplot(tabla)+
+  geom_bar(aes(x=WW, fill=COUNTRY))+
+  facet_wrap(~COUNTRY)
+
+
+ggplot(tabla, aes(sample = WW, colour = COUNTRY)) +
+  stat_qq() +
+  stat_qq_line()
+
+##Test de normalidad##
+skewness(WW, na.rm = T)
+#[1] 2.689661
+##extramadamente sesgada derecha
+
+kurtosis(WW,na.rm = T)
+#[1] 45.70698
+##leptocurtica
+density(WW)
+#Call:
+#density.default(x = WW)
+
+#Data: WW (693 obs.);	Bandwidth 'bw' = 0.2542
+
+#x                y            
+#Min.   : 6.737   Min.   :0.0000000  
+#1st Qu.:14.111   1st Qu.:0.0000000  
+#Median :21.485   Median :0.0000464  
+#Mean   :21.485   Mean   :0.0338697  
+#3rd Qu.:28.859   3rd Qu.:0.0023022  
+#Max.   :36.233   Max.   :0.4059264 
+
+sd(WW)
+#[1] 1.462081
+
+#contrastes de hipotesis
+#H0 = Los datos provienen de una poblaciOn distribuida normalmente.
+#HA = Los datos provienen de un poblaciOn que no se distribuye normalmente.
+
+##Test de Lilliefors##
+
+lillie.test(WW)
+#	Lilliefors (Kolmogorov-Smirnov)
+#normality test
+
+#data:  WW
+#D = 0.10528, p-value < 2.2e-16
+
+##Se rechaza H0
+
+#Homogeneidad de varianzas - HOMOCEDASTICIDAD####
+ggplot(data = tabla, aes(x = COUNTRY, y = WW, colour = COUNTRY)) +
+    geom_boxplot() +
+    geom_point() +
+    theme_bw() +
+    theme(legend.position = "none")
+?aggregate
+hist(WW)
+#Test de Levene
+leveneTest(WW ~ COUNTRY)
+#Levene's Test for Homogeneity of Variance (center = median)
+#       Df F value Pr(>F)
+#group   5  0.1787 0.9706
+#      687  
+
+
+ggplot(tabla, aes(sample = WW)) +
+  stat_qq() +
+  stat_qq_line()
+
+WW2<-sqrt(WW)
+lillie.test(WW2)
+#Lilliefors (Kolmogorov-Smirnov) normality test
+
+#data:  WW2
+#D = 0.09956, p-value < 2.2e-16
+
+
+lillie.test(WW)
+#Lilliefors (Kolmogorov-Smirnov) normality test
+
+#data:  WW
+#D = 0.10528, p-value < 2.2e-16
+#T_tuk =  transformTukey(WW)
+
+#No cumple con el supuesto de normalidad
+
+#Transformaciones logaritmicas#####
+shapiro.test(tabla$WW)
+
+#Shapiro-Wilk normality test
+
+#data:  tabla$WW
+#W = 0.75676, p-value < 2.2e-16
+
+T_tuk =  transformTukey(tabla$WW)
+#lambda      W Shapiro.p.value
+#414  0.325 0.7861       3.684e-29
+
+#if (lambda >  0){TRANS = x ^ lambda} 
+#if (lambda == 0){TRANS = log(x)} 
+#if (lambda <  0){TRANS = -1 * x ^ lambda} 
+
+TRANS = tabla$WW ^ 0.325
+skewness(TRANS,na.rm = T)
+##La variable no se transformó
+
+
+####Test parametricos####
+Gu <- tabla[which(COUNTRY=='gu'),]
+Usa <- tabla[which(COUNTRY=='us'),]
+
+lillie.test(x = Gu$WW)
+lillie.test(x = Usa$WW)
+##Siguen una distribucion normal
+
+#Ha=  que las medias sean diferentes
+t.test(Usa$WW, Gu$WW, alternative = "two.sided")
+##Las medias son diferentes
+
+#Ha=  que la media de x sea más grande que la media de y 
+t.test(Usa$WW, Gu$WW, alternative = "greater") 
+##La media de x es mayor, se rechaza H0
+
+# Ha=  que la media de x sea más pequeña que la media de y 
+t.test(Usa$WW, Gu$WW, alternative = "less")
+##La media de y es menor, no se rechaza H0
+
+
+####Test no parametricos####
+lillie.test(x = Mex$WB)
+lillie.test(x = Usa$WB)
+
+#Ha=  que las medias sean diferentes
+wilcox.test(Mex$WB, Usa$WB, alternative = "two.sided") 
+##No hay diferencias entre las medias
+
+#Ha=  que la media de x sea más grande que la media de y 
+wilcox.test(Mex$WB, Usa$WB, alternative = "greater")
+##La media de x es mayor, se rechaza H0
+
+
+# Ha=  que la media de x sea más pequeña que la media de y 
+wilcox.test(Mex$WB, Usa$WB, alternative = "less") 
+##La media de y es menor, no se rechaza H0
+
