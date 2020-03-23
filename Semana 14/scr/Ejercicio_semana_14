@@ -84,8 +84,8 @@ summarise(.data = group_by(Data, Var),
 #2 Maracuya    18  15.0  12.5
 
 
-Data22 <- data.frame(Gulupa=Data2[which(Data2$Var==levels(Data2$Var)[1]),2],
-                           Maracuya=Data2[which(Data2$Var==levels(Data2$Var)[2]),2])
+Data22 <- data.frame(Gulupa=Data2[which(Data2$Var==levels(Data2$Var)[1]),3],
+                           Maracuya=Data2[which(Data2$Var==levels(Data2$Var)[2]),3])
 
 #Error in data.frame(Gulupa = Data2[which(Data2$Var == levels(Data2$Var)[1]),  : 
 #                                     arguments imply differing number of rows: 28, 18
