@@ -143,8 +143,6 @@ m32
 #[1] 27.62025 15.19557 27.57976 31.21681
 ##[1] 27.620 15.195 27.579 31.216
 
-set.seed(48712)
-
 Input2 = ("
 Var Fase  Azucarmg
 Maracuya    F1  0.672
@@ -179,7 +177,6 @@ Data22 <- data.frame(Gulupa=Datacomp[which(Datacomp$Var==levels(Datacomp$Var)[1]
                      Maracuya=Datacomp[which(Datacomp$Var==levels(Datacomp$Var)[2]),3])
 head(Data22)
 OutVals = boxplot(Data22)$out
-
 ##No hay outliers
 
 anovdtcp <- aov(Datacomp$Azucarmg ~ Datacomp$Var)
@@ -193,5 +190,4 @@ summary(anovdtcp)
 
 boxgm <- ggplot(Datacomp, aes(x = Var, y = Azucarmg, fill = Fase)) +
   geom_boxplot() + ggtitle("ProducciÃ³n de azÃºcares en nectarios")
-
 boxgm
